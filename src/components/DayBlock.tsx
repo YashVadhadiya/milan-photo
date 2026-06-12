@@ -19,17 +19,24 @@ export default function DayBlock({
   onUpdateItemQuantity,
   onUpdateItemNotes,
 }: Props) {
+  const activeCount =
+    day.preProduction.filter((item) => item.enabled).length +
+    day.postProduction.filter((item) => item.enabled).length;
+
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-4">
-      <div className="bg-gray-800 text-white px-4 py-3 flex items-center justify-between gap-4">
+    <div className="bg-white/95 rounded-lg shadow-sm border border-[#ded5bf] overflow-hidden mb-4">
+      <div className="bg-[#263128] text-white px-4 py-3 flex items-center justify-between gap-4">
         <input
           value={day.label}
           onChange={(e) => onUpdateLabel(day.id, e.target.value)}
           className="bg-transparent border-b border-transparent hover:border-white/40 focus:border-white/60 outline-none font-semibold flex-1 text-sm"
         />
+        <span className="hidden xs:inline-flex rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-[#f7f1e3]">
+          {activeCount} selected
+        </span>
         <button
           onClick={() => onRemove(day.id)}
-          className="text-red-300 hover:text-red-200 text-xs font-medium shrink-0"
+          className="text-[#f0d1c6] hover:text-white text-xs font-semibold shrink-0 min-h-[36px] min-w-[36px] flex items-center justify-center"
         >
           Remove
         </button>

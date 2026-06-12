@@ -1,4 +1,5 @@
 import type { LineItem } from '../types';
+import QuantityStepper from './QuantityStepper';
 
 interface Props {
   dayId: string;
@@ -15,43 +16,36 @@ export default function PreProductionPanel({
   side,
   onToggle,
   onQuantity,
-  onNotes,
 }: Props) {
   return (
-    <div className="flex-1 p-4 sm:border-r border-gray-200">
-      <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
-        Pre-Production / Team
+    <div className="flex-1 p-4 sm:border-r border-[#ded5bf] bg-[#fbfaf7]/55">
+      <h3 className="text-xs font-bold text-[#8a8b55] uppercase mb-3">
+        Team
       </h3>
       {items.map((item) => (
-        <div key={item.id} className="mb-2">
-          <label className="flex items-center gap-2 cursor-pointer py-0.5">
+        <div
+          key={item.id}
+          className={`mb-2 rounded-lg border px-3 py-2 transition ${
+            item.enabled
+              ? 'border-[#b99a5b] bg-white shadow-sm'
+              : 'border-transparent hover:border-[#ded5bf] hover:bg-white/70'
+          }`}
+        >
+          <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={item.enabled}
               onChange={() => onToggle(dayId, side, item.id)}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="rounded border-[#bfb69f] text-[#8a8b55] focus:ring-[#b99a5b]"
             />
-            <span className="text-sm flex-1 select-none">{item.label}</span>
+            <span className="text-sm flex-1 select-none text-[#263128]">{item.label}</span>
             {item.enabled && (
-              <input
-                type="number"
-                min="1"
+              <QuantityStepper
                 value={item.quantity}
-                onChange={(e) =>
-                  onQuantity(dayId, side, item.id, parseInt(e.target.value) || 1)
-                }
-                className="w-14 px-2 py-1 border border-gray-300 rounded text-sm text-center"
+                onChange={(qty) => onQuantity(dayId, side, item.id, qty)}
               />
             )}
           </label>
-          {item.enabled && item.id === 'live-setup' && (
-            <input
-              value={item.notes}
-              onChange={(e) => onNotes(dayId, side, item.id, e.target.value)}
-              placeholder="Setup details..."
-              className="ml-6 mt-1 w-full px-2 py-1 border border-gray-200 rounded text-xs text-gray-600"
-            />
-          )}
         </div>
       ))}
     </div>

@@ -3,11 +3,13 @@ import { PRESET_TAGS } from '../constants';
 
 interface Props {
   daysCount: number;
+  selectedLabels: string[];
   onAdd: (label: string) => void;
 }
 
-export default function EventDays({ daysCount, onAdd }: Props) {
+export default function EventDays({ daysCount, selectedLabels, onAdd }: Props) {
   const [custom, setCustom] = useState('');
+  const selectedSet = new Set(selectedLabels.map((label) => label.trim().toLowerCase()));
 
   const handleAdd = () => {
     if (custom.trim()) {
@@ -19,21 +21,33 @@ export default function EventDays({ daysCount, onAdd }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Event Days</h2>
-
-      <p className="text-sm text-gray-500 mb-3">Click a preset tag or type a custom label:</p>
+    <div className="bg-white/90 rounded-lg shadow-sm border border-[#ded5bf] p-5 sm:p-6 mb-5 backdrop-blur">
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <h2 className="text-base sm:text-lg font-semibold text-[#263128]">Event Days</h2>
+        <span className="rounded-full bg-[#f7f1e3] px-3 py-1 text-xs font-semibold text-[#8a8b55]">
+          {daysCount} added
+        </span>
+      </div>
 
       <div className="flex flex-wrap gap-2 mb-4">
-        {PRESET_TAGS.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => onAdd(tag)}
-            className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 active:bg-gray-300 transition"
-          >
-            + {tag}
-          </button>
-        ))}
+        {PRESET_TAGS.map((tag) => {
+          const selected = selectedSet.has(tag.toLowerCase());
+
+          return (
+            <button
+              key={tag}
+              onClick={() => !selected && onAdd(tag)}
+              disabled={selected}
+              className={`px-3 py-1.5 min-h-[36px] border rounded-full text-sm font-medium transition ${
+                selected
+                  ? 'border-[#8a8b55] bg-[#eef1dd] text-[#263128] cursor-default shadow-sm'
+                  : 'border-[#ded5bf] bg-[#fbfaf7] text-[#263128] hover:border-[#b99a5b] hover:bg-[#f7f1e3] active:bg-[#eee3c8]'
+              }`}
+            >
+              {selected ? '✓' : '+'} {tag}
+            </button>
+          );
+        })}
       </div>
 
       <div className="flex gap-2">
@@ -42,11 +56,11 @@ export default function EventDays({ daysCount, onAdd }: Props) {
           onChange={(e) => setCustom(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
           placeholder="Type custom day label..."
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          className="flex-1 px-3.5 py-2.5 min-h-[44px] border border-[#d8d1c0] rounded-lg bg-[#fbfaf7] text-sm text-[#263128] placeholder:text-[#a2a696] focus:ring-2 focus:ring-[#b99a5b]/30 focus:border-[#b99a5b] outline-none transition"
         />
         <button
           onClick={handleAdd}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+          className="px-5 py-2.5 bg-[#263128] text-white rounded-lg text-sm font-semibold hover:bg-[#344236] transition min-h-[44px] flex items-center"
         >
           Add Day
         </button>

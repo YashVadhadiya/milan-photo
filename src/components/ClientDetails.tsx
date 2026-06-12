@@ -15,19 +15,22 @@ export default function ClientDetails({ client, onChange }: Props) {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Client Details</h2>
+    <div className="bg-white/90 rounded-lg shadow-sm border border-[#ded5bf] p-5 sm:p-6 mb-5 backdrop-blur">
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <h2 className="text-base sm:text-lg font-semibold text-[#263128]">Client Details</h2>
+        <span className="h-px flex-1 bg-[#ded5bf]" />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {fields.map(({ key, label, placeholder }) => (
           <div key={key}>
-            <label className="block text-sm font-medium text-gray-600 mb-1">
+            <label className="block text-xs font-semibold uppercase text-[#6f7468] mb-1.5">
               {label}
             </label>
             <input
               value={client[key]}
               onChange={(e) => onChange(key, e.target.value)}
               placeholder={placeholder}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              className="w-full px-3.5 py-2.5 min-h-[44px] border border-[#d8d1c0] rounded-lg bg-[#fbfaf7] text-sm text-[#263128] placeholder:text-[#a2a696] focus:ring-2 focus:ring-[#b99a5b]/30 focus:border-[#b99a5b] outline-none transition"
             />
           </div>
         ))}

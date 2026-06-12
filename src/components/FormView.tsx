@@ -21,17 +21,51 @@ interface Props {
 export default function FormView(props: Props) {
   const { state, onAddEventDay, onReset, onPreview } = props;
   const hasDays = state.eventDays.length > 0;
+  const selectedItems = state.eventDays.reduce(
+    (total, day) =>
+      total +
+      day.preProduction.filter((item) => item.enabled).length +
+      day.postProduction.filter((item) => item.enabled).length,
+    0
+  );
+  const selectedDayLabels = state.eventDays.map((day) => day.label);
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Milan Photography</h1>
-        <p className="text-gray-500 mt-1">Quotation Builder</p>
+    <div className="min-h-screen bg-[linear-gradient(135deg,#f8fafc_0%,#eef4ef_48%,#f6f8fb_100%)]">
+      <div className="max-w-5xl mx-auto py-6 sm:py-10 px-3 sm:px-5">
+      <div className="mb-6 sm:mb-8 rounded-lg border border-[#ded5bf] bg-white/85 px-5 py-5 shadow-sm backdrop-blur">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[#8a8b55]">Milan Studio</p>
+            <h1 className="mt-2 text-3xl sm:text-4xl font-semibold text-[#263128]">Quotation Builder</h1>
+            <p className="mt-1 text-sm text-[#6f7468]">Wedding & event photography proposal workspace</p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-lg border border-[#ded5bf] bg-[#fbfaf7] px-3 py-2">
+              <div className="text-lg font-semibold text-[#263128]">{state.eventDays.length}</div>
+              <div className="text-[11px] uppercase text-[#6f7468]">Days</div>
+            </div>
+            <div className="rounded-lg border border-[#ded5bf] bg-[#fbfaf7] px-3 py-2">
+              <div className="text-lg font-semibold text-[#263128]">{selectedItems}</div>
+              <div className="text-[11px] uppercase text-[#6f7468]">Items</div>
+            </div>
+            <div className="rounded-lg border border-[#ded5bf] bg-[#fbfaf7] px-3 py-2">
+              <div className="text-lg font-semibold text-[#263128]">
+                {state.totalAmount ? `₹${state.totalAmount.toLocaleString('en-IN')}` : '—'}
+              </div>
+              <div className="text-[11px] uppercase text-[#6f7468]">Total</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <ClientDetailsForm client={state.clientDetails} onChange={props.onUpdateClient} />
 
-      <EventDays daysCount={state.eventDays.length} onAdd={onAddEventDay} />
+      <EventDays
+        daysCount={state.eventDays.length}
+        selectedLabels={selectedDayLabels}
+        onAdd={onAddEventDay}
+      />
 
       {state.eventDays.map((day) => (
         <DayBlock
@@ -47,24 +81,25 @@ export default function FormView(props: Props) {
 
       <QuotationAmount value={state.totalAmount} onChange={props.onSetAmount} />
 
-      <div className="flex items-center justify-between gap-4 mt-8">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-8">
         <button
           onClick={onReset}
-          className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700 transition"
+          className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-[#6f7468] hover:text-[#263128] transition text-center"
         >
           Reset All
         </button>
         <button
           onClick={onPreview}
           disabled={!hasDays}
-          className={`px-8 py-3 rounded-xl text-sm font-semibold transition ${
+          className={`w-full sm:w-auto px-8 py-3 rounded-lg text-sm font-semibold transition ${
             hasDays
-              ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200'
+              ? 'bg-[#263128] text-white hover:bg-[#344236] shadow-lg shadow-[#8a8b55]/20'
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
         >
           Preview & Download
         </button>
+      </div>
       </div>
     </div>
   );

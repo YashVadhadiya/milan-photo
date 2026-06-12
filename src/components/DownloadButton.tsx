@@ -17,7 +17,7 @@ export default function DownloadButton({ pageRefs, state, pageCount }: Props) {
     setLoading(true);
 
     const name = state.clientDetails.name?.trim()
-      ? state.clientDetails.name.replace(/\s+/g, '-')
+      ? state.clientDetails.name.trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
       : 'Quotation';
     const filename = `${name}-Photo-Quotation.pdf`;
 
@@ -53,7 +53,7 @@ export default function DownloadButton({ pageRefs, state, pageCount }: Props) {
       className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition ${
         loading
           ? 'bg-gray-300 text-gray-500 cursor-wait'
-          : 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer'
+          : 'bg-[#263128] text-white hover:bg-[#344236] cursor-pointer shadow-sm'
       }`}
     >
       {loading ? (

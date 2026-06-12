@@ -1,4 +1,5 @@
 import type { LineItem } from '../types';
+import QuantityStepper from './QuantityStepper';
 
 interface Props {
   dayId: string;
@@ -16,29 +17,31 @@ export default function PostProductionPanel({
   onQuantity,
 }: Props) {
   return (
-    <div className="flex-1 p-4">
-      <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
-        Post-Production / Deliverables
+    <div className="flex-1 p-4 bg-white">
+      <h3 className="text-xs font-bold text-[#8a8b55] uppercase mb-3">
+        Output
       </h3>
       {items.map((item) => (
-        <div key={item.id} className="mb-2">
-          <label className="flex items-center gap-2 cursor-pointer py-0.5">
+        <div
+          key={item.id}
+          className={`mb-2 rounded-lg border px-3 py-2 transition ${
+            item.enabled
+              ? 'border-[#b99a5b] bg-[#fbfaf7] shadow-sm'
+              : 'border-transparent hover:border-[#ded5bf] hover:bg-[#fbfaf7]/70'
+          }`}
+        >
+          <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={item.enabled}
               onChange={() => onToggle(dayId, side, item.id)}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="rounded border-[#bfb69f] text-[#8a8b55] focus:ring-[#b99a5b]"
             />
-            <span className="text-sm flex-1 select-none">{item.label}</span>
+            <span className="text-sm flex-1 select-none text-[#263128]">{item.label}</span>
             {item.enabled && (
-              <input
-                type="number"
-                min="1"
+              <QuantityStepper
                 value={item.quantity}
-                onChange={(e) =>
-                  onQuantity(dayId, side, item.id, parseInt(e.target.value) || 1)
-                }
-                className="w-14 px-2 py-1 border border-gray-300 rounded text-sm text-center"
+                onChange={(qty) => onQuantity(dayId, side, item.id, qty)}
               />
             )}
           </label>

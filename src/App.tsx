@@ -1,50 +1,38 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import type { AppState, ClientDetails } from './types';
 import { PRE_PRODUCTION_ITEMS, POST_PRODUCTION_ITEMS, createLineItem } from './constants';
 import FormView from './components/FormView';
 import Preview from './components/Preview';
 
-const DEFAULT_STATE: AppState = {
-  clientDetails: { name: '', mobile: '', address: '', eventName: '', venue: '' },
-  eventDays: [],
-  totalAmount: null,
-};
+function toTitleCase(value: string): string {
+  return value.replace(/[A-Za-z][A-Za-z']*/g, (word) => (
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ));
+}
+
+function formatClientValue(field: keyof ClientDetails, value: string): string {
+  return field === 'mobile' ? value : toTitleCase(value);
+}
 
 export default function App() {
   const [view, setView] = useState<'form' | 'preview'>('form');
-  const [state, setState] = useState<AppState>(() => {
-    try {
-      const saved = localStorage.getItem('quotation-draft');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (
-          parsed &&
-          typeof parsed === 'object' &&
-          'clientDetails' in parsed &&
-          'eventDays' in parsed
-        ) {
-          return parsed as AppState;
-        }
-      }
-    } catch {}
-    return DEFAULT_STATE;
+  const [state, setState] = useState<AppState>({
+    clientDetails: { name: '', mobile: '', address: '', eventName: '', venue: '' },
+    eventDays: [],
+    totalAmount: null,
   });
-
-  useEffect(() => {
-    localStorage.setItem('quotation-draft', JSON.stringify(state));
-  }, [state]);
 
   const updateClient = useCallback((field: keyof ClientDetails, value: string) => {
     setState((prev) => ({
       ...prev,
-      clientDetails: { ...prev.clientDetails, [field]: value },
+      clientDetails: { ...prev.clientDetails, [field]: formatClientValue(field, value) },
     }));
   }, []);
 
   const addEventDay = useCallback((label: string) => {
     setState((prev) => {
       const dayNum = prev.eventDays.length + 1;
-      const dayLabel = label || `Day ${dayNum}`;
+      const dayLabel = toTitleCase(label || `Day ${dayNum}`);
       const day = {
         id: `day-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
         label: dayLabel,
@@ -66,7 +54,7 @@ export default function App() {
     setState((prev) => ({
       ...prev,
       eventDays: prev.eventDays.map((d) =>
-        d.id === dayId ? { ...d, label } : d
+        d.id === dayId ? { ...d, label: toTitleCase(label) } : d
       ),
     }));
   }, []);
@@ -99,7 +87,7 @@ export default function App() {
             ? {
                 ...d,
                 [side]: d[side].map((i) =>
-                  i.id === itemId ? { ...i, quantity: Math.max(0, qty) } : i
+                  i.id === itemId ? { ...i, quantity: Math.max(1, qty) } : i
                 ),
               }
             : d
@@ -133,8 +121,11 @@ export default function App() {
   }, []);
 
   const resetAll = useCallback(() => {
-    setState(DEFAULT_STATE);
-    localStorage.removeItem('quotation-draft');
+    setState({
+      clientDetails: { name: '', mobile: '', address: '', eventName: '', venue: '' },
+      eventDays: [],
+      totalAmount: null,
+    });
   }, []);
 
   return (
