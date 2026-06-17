@@ -1,0 +1,13 @@
+diff --git a/node_modules/jspdf/dist/jspdf.umd.js b/node_modules/jspdf/dist/jspdf.umd.js
+index 97556a5..57928d7 100644
+--- a/node_modules/jspdf/dist/jspdf.umd.js
++++ b/node_modules/jspdf/dist/jspdf.umd.js
+@@ -10581,7 +10581,7 @@
+             line = "";
+ 
+             if (anno.options.url) {
+-              line = "<</Type /Annot /Subtype /Link " + rect + "/Border [0 0 0] /A <</S /URI /URI (" + escape(encryptor(anno.options.url)) + ") >>";
++              line = "<</Type /Annot /Subtype /Link " + rect + "/Border [0 0 0] /A <</S /URI /URI (" + escape(encryptor(anno.options.url)) + (anno.options.newWindow ? " /NewWindow true" : "") + " >>";
+             } else if (anno.options.pageNumber) {
+               // first page is 0
+               var info = this.internal.getPageInfo(anno.options.pageNumber);

@@ -2,6 +2,7 @@ import { useMemo, useRef, useState, useEffect } from 'react';
 import type { AppState } from '../types';
 import { paginate } from '../utils/paginate';
 import QuotationPage from './QuotationPage';
+import LastPage from './LastPage';
 import DownloadButton from './DownloadButton';
 
 interface Props {
@@ -70,15 +71,24 @@ export default function Preview({ state, onBack }: Props) {
                 }}
               >
                 <div ref={(el) => { pageRefs.current[idx] = el; }}>
-                  <QuotationPage
-                    days={p.dayIndices.map((i) => state.eventDays[i])}
-                    clientDetails={state.clientDetails}
-                    showClient={p.showClient}
-                    showAmount={p.showAmount}
-                    amount={state.totalAmount}
-                    pageNumber={idx + 1}
-                    totalPages={pages.length}
-                  />
+                  {p.isLastPage ? (
+                    <LastPage
+                      footerDetails={state.footerDetails}
+                      pageNumber={idx + 1}
+                      totalPages={pages.length}
+                    />
+                  ) : (
+                    <QuotationPage
+                      days={p.dayIndices.map((i) => state.eventDays[i])}
+                      clientDetails={state.clientDetails}
+                      footerDetails={state.footerDetails}
+                      showClient={p.showClient}
+                      showAmount={p.showAmount}
+                      amount={state.totalAmount}
+                      pageNumber={idx + 1}
+                      totalPages={pages.length}
+                    />
+                  )}
                 </div>
               </div>
             </div>

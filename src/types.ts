@@ -2,8 +2,21 @@ export interface ClientDetails {
   name: string;
   mobile: string;
   address: string;
-  eventName: string;
-  venue: string;
+  eventDate: string;
+  quotationDate: string;
+}
+
+export interface FooterDetails {
+  owner1Name: string;
+  owner1Mobile: string;
+  owner1Enabled: boolean;
+  owner2Name: string;
+  owner2Mobile: string;
+  owner2Enabled: boolean;
+  address: string;
+  mapLink: string;
+  instagramId: string;
+  instagramLink: string;
 }
 
 export interface LineItem {
@@ -12,6 +25,7 @@ export interface LineItem {
   enabled: boolean;
   quantity: number;
   notes: string;
+  days: number;
 }
 
 export interface EventDay {
@@ -23,6 +37,7 @@ export interface EventDay {
 
 export interface AppState {
   clientDetails: ClientDetails;
+  footerDetails: FooterDetails;
   eventDays: EventDay[];
   totalAmount: number | null;
 }

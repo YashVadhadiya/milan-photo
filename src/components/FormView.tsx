@@ -1,5 +1,6 @@
-import type { AppState, ClientDetails } from '../types';
+import type { AppState, ClientDetails, FooterDetails } from '../types';
 import ClientDetailsForm from './ClientDetails';
+import FooterForm from './FooterForm';
 import EventDays from './EventDays';
 import DayBlock from './DayBlock';
 import QuotationAmount from './QuotationAmount';
@@ -7,12 +8,14 @@ import QuotationAmount from './QuotationAmount';
 interface Props {
   state: AppState;
   onUpdateClient: (field: keyof ClientDetails, value: string) => void;
+  onUpdateFooter: (field: keyof FooterDetails, value: string | boolean) => void;
   onAddEventDay: (label: string) => void;
   onRemoveEventDay: (id: string) => void;
   onUpdateEventDayLabel: (id: string, label: string) => void;
   onToggleItem: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string) => void;
   onUpdateItemQuantity: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, qty: number) => void;
   onUpdateItemNotes: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, notes: string) => void;
+  onUpdateItemDays: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, days: number) => void;
   onSetAmount: (amount: number | null) => void;
   onReset: () => void;
   onPreview: () => void;
@@ -37,24 +40,7 @@ export default function FormView(props: Props) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase text-[#8a8b55]">Milan Studio</p>
-            <h1 className="mt-2 text-3xl sm:text-4xl font-semibold text-[#263128]">Quotation Builder</h1>
             <p className="mt-1 text-sm text-[#6f7468]">Wedding & event photography proposal workspace</p>
-          </div>
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="rounded-lg border border-[#ded5bf] bg-[#fbfaf7] px-3 py-2">
-              <div className="text-lg font-semibold text-[#263128]">{state.eventDays.length}</div>
-              <div className="text-[11px] uppercase text-[#6f7468]">Days</div>
-            </div>
-            <div className="rounded-lg border border-[#ded5bf] bg-[#fbfaf7] px-3 py-2">
-              <div className="text-lg font-semibold text-[#263128]">{selectedItems}</div>
-              <div className="text-[11px] uppercase text-[#6f7468]">Items</div>
-            </div>
-            <div className="rounded-lg border border-[#ded5bf] bg-[#fbfaf7] px-3 py-2">
-              <div className="text-lg font-semibold text-[#263128]">
-                {state.totalAmount ? `₹${state.totalAmount.toLocaleString('en-IN')}` : '—'}
-              </div>
-              <div className="text-[11px] uppercase text-[#6f7468]">Total</div>
-            </div>
           </div>
         </div>
       </div>
@@ -76,10 +62,13 @@ export default function FormView(props: Props) {
           onToggleItem={props.onToggleItem}
           onUpdateItemQuantity={props.onUpdateItemQuantity}
           onUpdateItemNotes={props.onUpdateItemNotes}
+          onUpdateItemDays={props.onUpdateItemDays}
         />
       ))}
 
       <QuotationAmount value={state.totalAmount} onChange={props.onSetAmount} />
+
+      <FooterForm footer={state.footerDetails} onUpdate={props.onUpdateFooter} />
 
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-8">
         <button

@@ -1,10 +1,12 @@
 import type { CSSProperties } from 'react';
-import type { EventDay, ClientDetails, LineItem } from '../types';
+import type { EventDay, ClientDetails, FooterDetails, LineItem } from '../types';
 import { BRAND } from '../constants';
+import FooterPreview from './FooterPreview';
 
 interface Props {
   days: EventDay[];
   clientDetails: ClientDetails;
+  footerDetails: FooterDetails;
   showClient: boolean;
   showAmount: boolean;
   amount: number | null;
@@ -15,7 +17,7 @@ interface Props {
 const C = BRAND.colors;
 
 function hasClientData(c: ClientDetails): boolean {
-  return !!(c.name || c.mobile || c.address || c.eventName || c.venue);
+  return !!(c.name || c.mobile || c.address || c.eventDate || c.quotationDate);
 }
 
 function itemLabel(item: LineItem): string {
@@ -29,7 +31,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
     <div style={{ display: 'flex', gap: '8pt', alignItems: 'baseline' }}>
       <span
         style={{
-          width: '58pt',
+          width: '78pt',
           flexShrink: 0,
           fontSize: '8.5pt',
           color: C.muted,
@@ -78,6 +80,11 @@ function ServiceList({ title, items }: { title: string; items: LineItem[] }) {
                   {item.notes}
                 </div>
               )}
+              {item.id === 'pre-wed-teaser' && item.days > 0 && (
+                <div style={{ marginTop: '1pt', fontSize: '8.5pt', color: C.muted }}>
+                  {item.days} Days to go photos
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -96,6 +103,7 @@ const glassPanel: CSSProperties = {
 export default function QuotationPage({
   days,
   clientDetails,
+  footerDetails,
   showClient,
   showAmount,
   amount,
@@ -115,7 +123,7 @@ export default function QuotationPage({
       style={{
         width: '210mm',
         height: '297mm',
-        padding: '15mm 17mm 14mm',
+        padding: '15mm 17mm 8mm',
         fontFamily: '"Segoe UI", Arial, sans-serif',
         fontSize: '10pt',
         color: C.text,
@@ -163,46 +171,7 @@ export default function QuotationPage({
             flexShrink: 0,
           }}
         >
-          <img
-            src={BRAND.logoPath}
-            alt="logo"
-            style={{
-              width: '54pt',
-              height: '54pt',
-              objectFit: 'contain',
-              borderRadius: '6pt',
-              background: 'rgba(255,255,255,0.72)',
-              padding: '4pt',
-            }}
-          />
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontFamily: 'Georgia, "Times New Roman", serif',
-                fontSize: '24pt',
-                color: C.primary,
-                fontWeight: 700,
-                lineHeight: 1,
-              }}
-            >
-              Photography Quotation
-            </div>
-            <div style={{ marginTop: '5pt', fontSize: '9.5pt', color: C.muted, fontWeight: 600 }}>
-              {BRAND.businessName} | {BRAND.tagline}
-            </div>
-          </div>
-          <div
-            style={{
-              ...glassPanel,
-              boxShadow: 'none',
-              padding: '8pt 10pt',
-              textAlign: 'right',
-              minWidth: '92pt',
-            }}
-          >
-            <div style={{ fontSize: '8.5pt', color: C.muted, fontWeight: 700 }}>Prepared By</div>
-            <div style={{ fontSize: '10pt', color: C.primary, fontWeight: 800 }}>{BRAND.contactPerson}</div>
-            <div style={{ fontSize: '8.8pt', color: C.muted }}>{BRAND.mobile}</div>
+          <div style={{ flex: 1, height: '65px' }}>
           </div>
         </header>
 
@@ -238,9 +207,9 @@ export default function QuotationPage({
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3pt 14pt' }}>
                     <DetailRow label="Client" value={clientDetails.name} />
                     <DetailRow label="Mobile" value={clientDetails.mobile} />
-                    <DetailRow label="Location" value={clientDetails.address} />
-                    <DetailRow label="Venue" value={clientDetails.venue} />
-                    <DetailRow label="Event" value={clientDetails.eventName} />
+                    <DetailRow label="Address" value={clientDetails.address} />
+                    <DetailRow label="Event Date" value={clientDetails.eventDate} />
+                    <DetailRow label="Quotation Date" value={clientDetails.quotationDate} />
                   </div>
                 </div>
               </div>
@@ -284,18 +253,6 @@ export default function QuotationPage({
                     }}
                   >
                     {day.label}
-                  </div>
-                  <div
-                    style={{
-                      border: '0.7pt solid rgba(255,255,255,0.35)',
-                      borderRadius: '999pt',
-                      padding: '2pt 7pt',
-                      fontSize: '8.5pt',
-                      fontWeight: 700,
-                      color: C.lightGold,
-                    }}
-                  >
-                    Event {index + 1}
                   </div>
                 </div>
 
@@ -350,27 +307,7 @@ export default function QuotationPage({
           )}
         </main>
 
-        <footer
-          style={{
-            marginTop: '11pt',
-            paddingTop: '8pt',
-            borderTop: `1.3pt solid ${C.accent}`,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            fontSize: '8.8pt',
-            color: C.muted,
-            flexShrink: 0,
-          }}
-        >
-          <div>
-            <div style={{ fontWeight: 800, color: C.primary }}>{BRAND.businessName}</div>
-            <div>{BRAND.contactPerson} | {BRAND.mobile}</div>
-          </div>
-          <div style={{ textAlign: 'right', fontWeight: 700 }}>
-            Page {pageNumber} of {totalPages}
-          </div>
-        </footer>
+        <FooterPreview footer={footerDetails} pageNumber={pageNumber} totalPages={totalPages} />
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ interface Props {
   onToggleItem: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string) => void;
   onUpdateItemQuantity: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, qty: number) => void;
   onUpdateItemNotes: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, notes: string) => void;
+  onUpdateItemDays: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, days: number) => void;
 }
 
 export default function DayBlock({
@@ -18,6 +19,7 @@ export default function DayBlock({
   onToggleItem,
   onUpdateItemQuantity,
   onUpdateItemNotes,
+  onUpdateItemDays,
 }: Props) {
   const activeCount =
     day.preProduction.filter((item) => item.enabled).length +
@@ -56,6 +58,7 @@ export default function DayBlock({
           side="postProduction"
           onToggle={onToggleItem}
           onQuantity={onUpdateItemQuantity}
+          onDays={onUpdateItemDays}
         />
       </div>
     </div>

@@ -26,11 +26,12 @@ export interface PageContent {
   dayIndices: number[];
   showClient: boolean;
   showAmount: boolean;
+  isLastPage?: boolean;
 }
 
 export function paginate(state: AppState): PageContent[] {
   const { eventDays, clientDetails, totalAmount } = state;
-  const hasClient = !!(clientDetails.name || clientDetails.mobile || clientDetails.address || clientDetails.eventName || clientDetails.venue);
+  const hasClient = !!(clientDetails.name || clientDetails.mobile || clientDetails.address || clientDetails.eventDate || clientDetails.quotationDate);
   const hasAmount = totalAmount != null && totalAmount > 0;
 
   const pages: PageContent[] = [];
@@ -87,6 +88,8 @@ export function paginate(state: AppState): PageContent[] {
   if (pages.length === 0 && (hasClient || eventDays.length === 0)) {
     pages.push({ dayIndices: [], showClient: hasClient, showAmount: hasAmount });
   }
+
+  pages.push({ dayIndices: [], showClient: false, showAmount: false, isLastPage: true });
 
   return pages;
 }

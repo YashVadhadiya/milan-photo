@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import type { AppState, ClientDetails } from './types';
-import { PRE_PRODUCTION_ITEMS, POST_PRODUCTION_ITEMS, createLineItem } from './constants';
+import type { AppState, ClientDetails, FooterDetails } from './types';
+import { PRE_PRODUCTION_ITEMS, POST_PRODUCTION_ITEMS, createLineItem, DEFAULT_FOOTER } from './constants';
 import FormView from './components/FormView';
 import Preview from './components/Preview';
 
@@ -11,21 +11,29 @@ function toTitleCase(value: string): string {
 }
 
 function formatClientValue(field: keyof ClientDetails, value: string): string {
-  return field === 'mobile' ? value : toTitleCase(value);
+  return (field === 'mobile' || field === 'eventDate' || field === 'quotationDate') ? value : toTitleCase(value);
 }
 
 export default function App() {
   const [view, setView] = useState<'form' | 'preview'>('form');
-  const [state, setState] = useState<AppState>({
-    clientDetails: { name: '', mobile: '', address: '', eventName: '', venue: '' },
+  const [state, setState] = useState<AppState>(() => ({
+    clientDetails: { name: '', mobile: '', address: '', eventDate: '', quotationDate: (() => { const d = new Date(); return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`; })() },
+    footerDetails: { ...DEFAULT_FOOTER },
     eventDays: [],
     totalAmount: null,
-  });
+  }));
 
   const updateClient = useCallback((field: keyof ClientDetails, value: string) => {
     setState((prev) => ({
       ...prev,
       clientDetails: { ...prev.clientDetails, [field]: formatClientValue(field, value) },
+    }));
+  }, []);
+
+  const updateFooter = useCallback((field: keyof FooterDetails, value: string | boolean) => {
+    setState((prev) => ({
+      ...prev,
+      footerDetails: { ...prev.footerDetails, [field]: value },
     }));
   }, []);
 
@@ -116,13 +124,33 @@ export default function App() {
     []
   );
 
+  const updateItemDays = useCallback(
+    (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, days: number) => {
+      setState((prev) => ({
+        ...prev,
+        eventDays: prev.eventDays.map((d) =>
+          d.id === dayId
+            ? {
+                ...d,
+                [side]: d[side].map((i) =>
+                  i.id === itemId ? { ...i, days: Math.max(0, days) } : i
+                ),
+              }
+            : d
+        ),
+      }));
+    },
+    []
+  );
+
   const setAmount = useCallback((amount: number | null) => {
     setState((prev) => ({ ...prev, totalAmount: amount }));
   }, []);
 
   const resetAll = useCallback(() => {
     setState({
-      clientDetails: { name: '', mobile: '', address: '', eventName: '', venue: '' },
+    clientDetails: { name: '', mobile: '', address: '', eventDate: '', quotationDate: (() => { const d = new Date(); return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`; })() },
+      footerDetails: { ...DEFAULT_FOOTER },
       eventDays: [],
       totalAmount: null,
     });
@@ -134,12 +162,14 @@ export default function App() {
         <FormView
           state={state}
           onUpdateClient={updateClient}
+          onUpdateFooter={updateFooter}
           onAddEventDay={addEventDay}
           onRemoveEventDay={removeEventDay}
           onUpdateEventDayLabel={updateEventDayLabel}
           onToggleItem={toggleItem}
           onUpdateItemQuantity={updateItemQuantity}
           onUpdateItemNotes={updateItemNotes}
+          onUpdateItemDays={updateItemDays}
           onSetAmount={setAmount}
           onReset={resetAll}
           onPreview={() => setView('preview')}

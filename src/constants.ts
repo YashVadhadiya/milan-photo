@@ -1,19 +1,22 @@
-import type { LineItem } from './types';
+import type { FooterDetails, LineItem } from './types';
 import backgroundPath from '../bg.png';
 
 export const PRESET_TAGS = [
   'Jal',
   'Sagai',
   'Kanku Pagla',
+  'Pre Wedding',
   'Mandap',
   'Vana Rasam',
-  'Haldi',
-  'Sangeet',
-  'Wedding',
+  'Dandiya',
+  'Wedding Day',
   'Reception',
   'Birthday Party',
   'Family Function',
   'Baby Shower',
+  'Baby Photography',
+  'Panchmasi',
+  'Plazma Screen',
 ];
 
 export interface ItemTemplate {
@@ -24,31 +27,34 @@ export interface ItemTemplate {
 
 export const PRE_PRODUCTION_ITEMS: ItemTemplate[] = [
   { id: 'cinematographer', label: 'Cinematographer', notes: '' },
+  { id: 'semi-cinematographer', label: 'Semi Cinematographer', notes: '' },
   { id: 'candid-photographer', label: 'Candid Photographer', notes: '' },
-  { id: 'ritual-photographer', label: 'Ritual Photographer', notes: '' },
-  { id: 'ritual-videographer', label: 'Ritual Videographer', notes: '' },
+  { id: 'traditional-photographer', label: 'Traditional Photographer', notes: '' },
+  { id: 'traditional-videographer', label: 'Traditional Videographer', notes: '' },
+  { id: 'family-photographer', label: 'Family Photographer', notes: '' },
   { id: 'drone', label: 'Drone', notes: '' },
   { id: 'live-setup', label: 'Live Setup', notes: '' },
+  { id: 'plazam-tv', label: 'Plazam TV', notes: '' },
   { id: 'fpv-drone', label: 'FPV Drone', notes: '' },
 ];
 
 export const POST_PRODUCTION_ITEMS: ItemTemplate[] = [
-  { id: 'insta-reels', label: 'Insta Reels', notes: '' },
+  { id: 'reels', label: 'Reels', notes: '' },
   { id: 'cinematic-teaser', label: 'Cinematic Teaser', notes: '' },
   { id: 'cinematic-highlight', label: 'Cinematic Highlight', notes: '' },
   { id: 'cinematic-short-film', label: 'Cinematic Short Film', notes: '' },
   { id: 'traditional-film', label: 'Traditional Film', notes: '' },
-  { id: 'edited-photos-master', label: 'Edited Photos Master Data', notes: '' },
-  { id: 'edited-photos-collectives', label: 'Edited Photos Collectives', notes: '' },
+  { id: 'edited-photos-story', label: 'Edited Photos Story', notes: '' },
   { id: 'same-day-highlight', label: 'Same Day Highlight', notes: '' },
-  { id: 'all-raw-data', label: 'All Raw Data Given', notes: '' },
+  { id: 'all-photos-full-videos', label: 'All Photos & Full Videos', notes: '' },
+  { id: 'all-raw-data', label: 'All Raw Data', notes: '' },
+  { id: 'pre-wed-teaser', label: 'Pre Wed. Teaser + Couple Song', notes: '' },
 ];
 
 export const BRAND = {
   businessName: 'Milan Studio',
   contactPerson: 'Vishal Bhai',
   mobile: '+91 8128126869',
-  tagline: 'Wedding & Event Photography',
   colors: {
     primary: '#263128',
     accent: '#B99A5B',
@@ -65,6 +71,19 @@ export const BRAND = {
   backgroundPath,
 };
 
+export const DEFAULT_FOOTER: FooterDetails = {
+  owner1Name: 'Vishal Bhai',
+  owner1Mobile: '+91 8128126869',
+  owner1Enabled: true,
+  owner2Name: 'Dharmik Bhai',
+  owner2Mobile: '+91 8469507585',
+  owner2Enabled: true,
+  address: 'MILAN STUDIO, 509, 5th Floor, Asopalav Cross Road Building, Opp. Shastrinagar Main Gate, Nana Mava Main Road, Rajkot.',
+  mapLink: 'https://maps.app.goo.gl/PwMjjfJf7mLP7cKn6',
+  instagramId: 'milan_photoshoot__',
+  instagramLink: 'https://www.instagram.com/milan_photoshoot__',
+};
+
 export function createLineItem(template: ItemTemplate): LineItem {
   return {
     id: template.id,
@@ -72,5 +91,6 @@ export function createLineItem(template: ItemTemplate): LineItem {
     enabled: false,
     quantity: 1,
     notes: template.notes,
+    days: 0,
   };
 }

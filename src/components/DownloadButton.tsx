@@ -38,6 +38,20 @@ export default function DownloadButton({ pageRefs, state, pageCount }: Props) {
 
         if (i > 0) pdf.addPage();
         pdf.addImage(imgData, 'JPEG', 0, 0, A4_W, A4_H);
+
+        const pageRect = el.getBoundingClientRect();
+        el.querySelectorAll('a[href]').forEach((link) => {
+          const href = link.getAttribute('href');
+          if (!href || href.startsWith('#')) return;
+          const rect = link.getBoundingClientRect();
+          pdf.link(
+            ((rect.left - pageRect.left) / pageRect.width) * A4_W,
+            ((rect.top - pageRect.top) / pageRect.height) * A4_H,
+            (rect.width / pageRect.width) * A4_W,
+            (rect.height / pageRect.height) * A4_H,
+            { url: href, newWindow: true }
+          );
+        });
       }
 
       pdf.save(filename);
