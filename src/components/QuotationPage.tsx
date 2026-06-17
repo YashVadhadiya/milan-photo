@@ -65,18 +65,18 @@ function ServiceList({ title, items }: { title: string; items: LineItem[] }) {
       >
         {title}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '4pt' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1pt' }}>
         {items.map((item) => (
           <div
             key={item.id}
             style={{
-              padding: '5pt 0',
-              borderBottom: `0.5pt solid ${C.line}`,
+              padding: '2.5pt 0',
+              borderBottom: `0.25pt solid ${C.line}`,
               breakInside: 'avoid',
             }}
           >
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: '10pt', color: C.text, fontWeight: 650 }}>
+              <div style={{ fontSize: '13pt', color: C.text, fontWeight: 650 }}>
                 {itemLabel(item)}
               </div>
               {item.notes && (
@@ -223,7 +223,7 @@ export default function QuotationPage({
           )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '9pt' }}>
-            {visibleDays.length === 0 && (
+            {!showAmount && visibleDays.length === 0 && (
               <section style={{ ...glassPanel, padding: '18pt', textAlign: 'center' }}>
                 <div
                   style={{

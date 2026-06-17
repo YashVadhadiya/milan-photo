@@ -6,6 +6,7 @@ export const PRESET_TAGS = [
   'Sagai',
   'Kanku Pagla',
   'Pre Wedding',
+  'Lagan Lekhan',
   'Mandap',
   'Vana Rasam',
   'Dandiya',
