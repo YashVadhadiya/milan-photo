@@ -1,19 +1,20 @@
 import type { AppState } from '../types';
 
 const A4_HEIGHT_PX = 1123;
-const MARGIN_TOP = 50;
-const MARGIN_BOTTOM = 50;
-const HEADER_H = 140;
-const HEADER_GAP = 14;
-const FOOTER_H = 70;
-const FOOTER_GAP = 14;
-const BODY_AVAIL = A4_HEIGHT_PX - MARGIN_TOP - HEADER_H - HEADER_GAP - FOOTER_GAP - FOOTER_H - MARGIN_BOTTOM;
+const MARGIN_TOP = 57;      // 15mm outer padding
+const MARGIN_BOTTOM = 30;   // 8mm outer padding
+const HEADER_H = 82;        // 65px div + 11pt padding-bottom + 1.6pt border
+const HEADER_GAP = 16;      // 12pt margin-bottom
+const FOOTER_H = 75;        // 6pt padding + 1.3pt border + ~65px content
+const FOOTER_GAP = 20;      // buffer between content and footer
+const BODY_AVAIL = A4_HEIGHT_PX - MARGIN_TOP - HEADER_H - HEADER_GAP - FOOTER_H - FOOTER_GAP - MARGIN_BOTTOM;
 
-const CLIENT_H = 90;
-const AMOUNT_H = 75;
-const DAY_BASE_H = 95;
-const DAY_ITEM_H = 30;
-const DAY_GAP = 20;
+// Content height estimates (in pixels, matching actual CSS rendering at 96 DPI)
+const CLIENT_H = 150;
+const AMOUNT_H = 85;
+const DAY_BASE_H = 100;     // header + inner padding + service title
+const DAY_ITEM_H = 38;      // per enabled item in the taller column
+const DAY_GAP = 14;         // gap between day sections
 
 function estimateDayHeight(day: { preProduction: { enabled: boolean }[]; postProduction: { enabled: boolean }[] }): number {
   const pre = day.preProduction.filter(i => i.enabled).length;

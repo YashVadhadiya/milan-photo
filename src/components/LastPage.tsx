@@ -63,7 +63,7 @@ export default function LastPage({ footerDetails, pageNumber, totalPages }: Prop
       </div>
 
       <div style={{ position: 'relative', zIndex: 1, flexShrink: 0 }}>
-        <FooterPreview footer={footerDetails} pageNumber={pageNumber} totalPages={totalPages} />
+        <FooterPreview footer={footerDetails} pageNumber={pageNumber} totalPages={totalPages} lastPage />
       </div>
     </div>
   );

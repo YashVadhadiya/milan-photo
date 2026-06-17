@@ -7,6 +7,7 @@ interface Props {
   footer: FooterDetails;
   pageNumber: number;
   totalPages: number;
+  lastPage?: boolean;
 }
 
 function InstagramIcon() {
@@ -17,7 +18,7 @@ function InstagramIcon() {
   );
 }
 
-export default function FooterPreview({ footer, pageNumber, totalPages }: Props) {
+export default function FooterPreview({ footer, pageNumber, totalPages, lastPage }: Props) {
   const ownerParts: string[] = [];
   if (footer.owner1Enabled && footer.owner1Name) {
     ownerParts.push(`${footer.owner1Name}: ${footer.owner1Mobile}`);
@@ -31,11 +32,12 @@ export default function FooterPreview({ footer, pageNumber, totalPages }: Props)
     <footer
       style={{
         paddingTop: '6pt',
+        marginBottom: lastPage ? '40px' : '-15px',
         borderTop: `1.3pt solid ${C.accent}`,
-        display: 'flex',
+        ...(lastPage ? {} : { display: 'flex' }),
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        fontSize: '8.8pt',
+        fontSize: lastPage ? '14pt' : '8.8pt',
         color: C.muted,
         lineHeight: 1.5,
         flexShrink: 0,

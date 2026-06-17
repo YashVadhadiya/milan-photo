@@ -4,6 +4,7 @@ import { paginate } from '../utils/paginate';
 import QuotationPage from './QuotationPage';
 import LastPage from './LastPage';
 import DownloadButton from './DownloadButton';
+import middleBg from '../../all_page_layout.png';
 
 interface Props {
   state: AppState;
@@ -87,6 +88,8 @@ export default function Preview({ state, onBack }: Props) {
                       amount={state.totalAmount}
                       pageNumber={idx + 1}
                       totalPages={pages.length}
+                      showDetailedFooter={idx === 0}
+                      bgImage={idx > 0 ? middleBg : undefined}
                     />
                   )}
                 </div>

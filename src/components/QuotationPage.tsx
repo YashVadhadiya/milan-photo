@@ -2,6 +2,8 @@ import type { CSSProperties } from 'react';
 import type { EventDay, ClientDetails, FooterDetails, LineItem } from '../types';
 import { BRAND } from '../constants';
 import FooterPreview from './FooterPreview';
+import SimpleFooter from './SimpleFooter';
+
 
 interface Props {
   days: EventDay[];
@@ -12,6 +14,8 @@ interface Props {
   amount: number | null;
   pageNumber: number;
   totalPages: number;
+  showDetailedFooter?: boolean;
+  bgImage?: string;
 }
 
 const C = BRAND.colors;
@@ -109,6 +113,8 @@ export default function QuotationPage({
   amount,
   pageNumber,
   totalPages,
+  showDetailedFooter,
+  bgImage,
 }: Props) {
   const visibleDays = days
     .map((day) => ({
@@ -129,7 +135,7 @@ export default function QuotationPage({
         color: C.text,
         lineHeight: 1.45,
         backgroundColor: C.paper,
-        backgroundImage: `url(${BRAND.backgroundPath})`,
+        backgroundImage: `url(${bgImage || BRAND.backgroundPath})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -307,7 +313,11 @@ export default function QuotationPage({
           )}
         </main>
 
-        <FooterPreview footer={footerDetails} pageNumber={pageNumber} totalPages={totalPages} />
+        {showDetailedFooter ? (
+          <FooterPreview footer={footerDetails} pageNumber={pageNumber} totalPages={totalPages} />
+        ) : (
+          <SimpleFooter pageNumber={pageNumber} totalPages={totalPages} />
+        )}
       </div>
     </div>
   );
