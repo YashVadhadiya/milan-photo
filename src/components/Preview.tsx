@@ -23,6 +23,10 @@ export default function Preview({ state, onBack }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
+
+  useEffect(() => {
     const el = wrapperRef.current;
     if (!el) return;
 
@@ -39,17 +43,6 @@ export default function Preview({ state, onBack }: Props) {
   return (
     <div className="min-h-screen bg-[linear-gradient(135deg,#eef4ef_0%,#f8fafc_46%,#edf1f5_100%)] py-6 sm:py-8 px-3 sm:px-4">
       <div ref={wrapperRef} className="mx-auto" style={{ maxWidth: '220mm' }}>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 rounded-lg border border-[#ded5bf] bg-white/85 px-4 py-3 shadow-sm backdrop-blur">
-          <button
-            onClick={onBack}
-            className="inline-flex items-center justify-center gap-2 text-[#6f7468] hover:text-[#263128] transition text-sm font-semibold min-h-[42px] sm:min-h-0"
-          >
-            <span>{'\u2190'}</span>
-            <span>Back to Edit</span>
-          </button>
-          <DownloadButton pageRefs={pageRefs} state={state} pageCount={pages.length} />
-        </div>
-
         <div className="space-y-6">
           {pages.map((p, idx) => (
             <div
@@ -96,6 +89,17 @@ export default function Preview({ state, onBack }: Props) {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mt-6 rounded-lg border border-[#ded5bf] bg-white/85 px-4 py-3 shadow-sm backdrop-blur">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center justify-center gap-2 text-[#6f7468] hover:text-[#263128] transition text-sm font-semibold min-h-[42px] sm:min-h-0"
+          >
+            <span>{'\u2190'}</span>
+            <span>Back to Edit</span>
+          </button>
+          <DownloadButton pageRefs={pageRefs} state={state} pageCount={pages.length} />
         </div>
       </div>
     </div>

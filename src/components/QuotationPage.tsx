@@ -129,7 +129,7 @@ export default function QuotationPage({
       style={{
         width: '210mm',
         height: '297mm',
-        padding: '15mm 17mm 8mm',
+        padding: '15mm 13mm 8mm',
         fontFamily: '"Segoe UI", Arial, sans-serif',
         fontSize: '10pt',
         color: C.text,
@@ -148,16 +148,6 @@ export default function QuotationPage({
     >
       <div
         style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.68) 52%, rgba(255,255,255,0.25) 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div
-        style={{
           position: 'relative',
           zIndex: 1,
           display: 'flex',
@@ -168,6 +158,7 @@ export default function QuotationPage({
       >
         <header
           style={{
+            position: 'relative',
             display: 'flex',
             alignItems: 'center',
             gap: '14pt',
@@ -177,8 +168,27 @@ export default function QuotationPage({
             flexShrink: 0,
           }}
         >
-          <div style={{ flex: 1, height: '65px' }}>
-          </div>
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: '-15mm',
+              bottom: 0,
+              background: 'linear-gradient(90deg, transparent 5%, rgba(185,154,91,0.035) 15%, rgba(185,154,91,0.14) 25%, rgba(185,154,91,0.28) 35%, rgba(185,154,91,0.42) 44%, rgba(185,154,91,0.45) 50%, rgba(185,154,91,0.42) 56%, rgba(185,154,91,0.28) 65%, rgba(185,154,91,0.14) 75%, rgba(185,154,91,0.035) 85%, transparent 95%)',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: '-15mm',
+              bottom: 0,
+              pointerEvents: 'none',
+            }}
+          />
+          <div style={{ position: 'relative', zIndex: 2, flex: 1, height: '65px' }} />
         </header>
 
         <main style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>

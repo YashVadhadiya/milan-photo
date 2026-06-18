@@ -19,6 +19,7 @@ interface Props {
   onSetAmount: (amount: number | null) => void;
   onReset: () => void;
   onPreview: () => void;
+  onLoadSample: () => void;
 }
 
 export default function FormView(props: Props) {
@@ -42,6 +43,12 @@ export default function FormView(props: Props) {
             <p className="text-xs font-semibold uppercase text-[#8a8b55]">Milan Studio</p>
             <p className="mt-1 text-sm text-[#6f7468]">Wedding & event photography proposal workspace</p>
           </div>
+          <button
+            onClick={props.onLoadSample}
+            className="hidden"
+          >
+            + Load Sample
+          </button>
         </div>
       </div>
 

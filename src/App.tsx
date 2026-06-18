@@ -156,6 +156,39 @@ export default function App() {
     });
   }, []);
 
+  const loadSample = useCallback(() => {
+    const makeDay = (label: string, preEnabled: string[], postEnabled: string[]) => ({
+      id: `sample-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      label,
+      preProduction: PRE_PRODUCTION_ITEMS.map((t) => ({
+        ...createLineItem(t),
+        enabled: preEnabled.includes(t.id),
+      })),
+      postProduction: POST_PRODUCTION_ITEMS.map((t) => ({
+        ...createLineItem(t),
+        enabled: postEnabled.includes(t.id),
+      })),
+    });
+
+    setState({
+      clientDetails: {
+        name: 'Rahul & Priya',
+        mobile: '+91 9876543210',
+        address: 'Rajkot, Gujarat',
+        eventDate: '15-12-2025',
+        quotationDate: (() => { const d = new Date(); return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`; })(),
+      },
+      footerDetails: { ...DEFAULT_FOOTER },
+      eventDays: [
+        makeDay('Wedding Day', ['cinematographer', 'candid-photographer', 'drone'], ['reels', 'cinematic-highlight', 'edited-photos-story']),
+        makeDay('Reception', ['traditional-photographer', 'live-setup'], ['same-day-highlight']),
+      ],
+      totalAmount: 150000,
+    });
+
+    setView('preview');
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {view === 'form' ? (
@@ -173,6 +206,7 @@ export default function App() {
           onSetAmount={setAmount}
           onReset={resetAll}
           onPreview={() => setView('preview')}
+          onLoadSample={loadSample}
         />
       ) : (
         <Preview state={state} onBack={() => setView('form')} />
