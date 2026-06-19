@@ -85,7 +85,7 @@ export default function FooterForm({ footer, onUpdate }: Props) {
           <textarea
             value={footer.address}
             onChange={(e) => onUpdate('address', e.target.value)}
-            placeholder="e.g. MILAN STUDIO, 509, 5th Floor..."
+            placeholder="e.g. MILAN PHOTO, 509, 5th Floor..."
             rows={2}
             className="w-full px-3.5 py-2.5 min-h-[44px] border border-[#d8d1c0] rounded-lg bg-[#fbfaf7] text-sm text-[#263128] placeholder:text-[#a2a696] focus:ring-2 focus:ring-[#b99a5b]/30 focus:border-[#b99a5b] outline-none transition resize-none"
           />

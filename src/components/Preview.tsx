@@ -79,6 +79,7 @@ export default function Preview({ state, onBack }: Props) {
                       showClient={p.showClient}
                       showAmount={p.showAmount}
                       amount={state.totalAmount}
+                      advanceAmount={state.advanceAmount}
                       pageNumber={idx + 1}
                       totalPages={pages.length}
                       showDetailedFooter={idx === 0}

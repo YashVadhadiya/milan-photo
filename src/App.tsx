@@ -21,6 +21,7 @@ export default function App() {
     footerDetails: { ...DEFAULT_FOOTER },
     eventDays: [],
     totalAmount: null,
+    advanceAmount: null,
   }));
 
   const updateClient = useCallback((field: keyof ClientDetails, value: string) => {
@@ -147,12 +148,17 @@ export default function App() {
     setState((prev) => ({ ...prev, totalAmount: amount }));
   }, []);
 
+  const setAdvanceAmount = useCallback((amount: number | null) => {
+    setState((prev) => ({ ...prev, advanceAmount: amount }));
+  }, []);
+
   const resetAll = useCallback(() => {
     setState({
     clientDetails: { name: '', mobile: '', address: '', eventDate: '', quotationDate: (() => { const d = new Date(); return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`; })() },
       footerDetails: { ...DEFAULT_FOOTER },
       eventDays: [],
       totalAmount: null,
+      advanceAmount: null,
     });
   }, []);
 
@@ -184,6 +190,7 @@ export default function App() {
         makeDay('Reception', ['traditional-photographer', 'live-setup'], ['same-day-highlight']),
       ],
       totalAmount: 150000,
+      advanceAmount: 50000,
     });
 
     setView('preview');
@@ -204,6 +211,7 @@ export default function App() {
           onUpdateItemNotes={updateItemNotes}
           onUpdateItemDays={updateItemDays}
           onSetAmount={setAmount}
+          onSetAdvanceAmount={setAdvanceAmount}
           onReset={resetAll}
           onPreview={() => setView('preview')}
           onLoadSample={loadSample}

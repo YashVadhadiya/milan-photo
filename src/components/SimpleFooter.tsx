@@ -22,7 +22,7 @@ export default function SimpleFooter({ pageNumber, totalPages }: Props) {
       }}
     >
       <div style={{ flex: 1 }} />
-      <div style={{ fontWeight: 700, color: C.primary, textAlign: 'center' }}>Milan Studio</div>
+      <div style={{ fontWeight: 700, color: C.primary, textAlign: 'center' }}>Milan Photo</div>
       <div style={{ flex: 1, textAlign: 'right', fontWeight: 700, whiteSpace: 'nowrap' }}>
         Page {pageNumber} of {totalPages}
       </div>

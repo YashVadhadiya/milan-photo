@@ -17,6 +17,7 @@ interface Props {
   onUpdateItemNotes: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, notes: string) => void;
   onUpdateItemDays: (dayId: string, side: 'preProduction' | 'postProduction', itemId: string, days: number) => void;
   onSetAmount: (amount: number | null) => void;
+  onSetAdvanceAmount: (amount: number | null) => void;
   onReset: () => void;
   onPreview: () => void;
   onLoadSample: () => void;
@@ -40,7 +41,7 @@ export default function FormView(props: Props) {
       <div className="mb-6 sm:mb-8 rounded-lg border border-[#ded5bf] bg-white/85 px-5 py-5 shadow-sm backdrop-blur">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase text-[#8a8b55]">Milan Studio</p>
+            <p className="text-xs font-semibold uppercase text-[#8a8b55]">Milan Photo</p>
             <p className="mt-1 text-sm text-[#6f7468]">Wedding & event photography proposal workspace</p>
           </div>
           <button
@@ -73,7 +74,7 @@ export default function FormView(props: Props) {
         />
       ))}
 
-      <QuotationAmount value={state.totalAmount} onChange={props.onSetAmount} />
+      <QuotationAmount value={state.totalAmount} onChange={props.onSetAmount} advanceValue={state.advanceAmount} onAdvanceChange={props.onSetAdvanceAmount} />
 
       <FooterForm footer={state.footerDetails} onUpdate={props.onUpdateFooter} />
 

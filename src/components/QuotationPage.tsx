@@ -12,6 +12,7 @@ interface Props {
   showClient: boolean;
   showAmount: boolean;
   amount: number | null;
+  advanceAmount: number | null;
   pageNumber: number;
   totalPages: number;
   showDetailedFooter?: boolean;
@@ -111,6 +112,7 @@ export default function QuotationPage({
   showClient,
   showAmount,
   amount,
+  advanceAmount,
   pageNumber,
   totalPages,
   showDetailedFooter,
@@ -286,39 +288,84 @@ export default function QuotationPage({
                 ...glassPanel,
                 marginTop: '11pt',
                 padding: '10pt 14pt',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '12pt',
                 border: `1.2pt solid ${C.accent}`,
                 background: 'rgba(247,241,227,0.86)',
               }}
             >
-              <div>
-                <div
-                  style={{
-                    fontFamily: 'Georgia, "Times New Roman", serif',
-                    fontSize: '14pt',
-                    color: C.primary,
-                    fontWeight: 700,
-                  }}
-                >
-                  Total Quotation
-                </div>
-                <div style={{ marginTop: '2pt', fontSize: '8.8pt', color: C.muted, fontWeight: 600 }}>
-                  Package amount for selected services
-                </div>
-              </div>
               <div
                 style={{
-                  fontSize: '23pt',
-                  color: C.primary,
-                  fontWeight: 800,
-                  whiteSpace: 'nowrap',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '12pt',
                 }}
               >
-                {'\u20B9'} {amount.toLocaleString('en-IN')}
+                <div>
+                  <div
+                    style={{
+                      fontFamily: 'Georgia, "Times New Roman", serif',
+                      fontSize: '14pt',
+                      color: C.primary,
+                      fontWeight: 700,
+                    }}
+                  >
+                    Package Cost
+                  </div>
+                  <div style={{ marginTop: '2pt', fontSize: '8.8pt', color: C.muted, fontWeight: 600 }}>
+                    Package amount for selected services
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontSize: '23pt',
+                    color: C.primary,
+                    fontWeight: 800,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {'\u20B9'} {amount.toLocaleString('en-IN')}
+                </div>
               </div>
+              {advanceAmount != null && advanceAmount > 0 && (
+                <>
+                  <div
+                    style={{
+                      height: '0.5pt',
+                      background: C.line,
+                      marginTop: '7pt',
+                      marginBottom: '7pt',
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '12pt',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: '9pt',
+                        color: C.muted,
+                        fontWeight: 600,
+                      }}
+                    >
+                      Booking Confirmation Amount Received
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '15pt',
+                        color: C.primary,
+                        fontWeight: 700,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {'\u20B9'} {advanceAmount.toLocaleString('en-IN')}
+                    </div>
+                  </div>
+                </>
+              )}
             </section>
           )}
         </main>

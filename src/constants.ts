@@ -55,7 +55,7 @@ export const POST_PRODUCTION_ITEMS: ItemTemplate[] = [
 ];
 
 export const BRAND = {
-  businessName: 'Milan Studio',
+  businessName: 'Milan Photo',
   contactPerson: 'Vishal Bhai',
   mobile: '+91 8128126869',
   colors: {
@@ -81,7 +81,7 @@ export const DEFAULT_FOOTER: FooterDetails = {
   owner2Name: 'Dharmik Bhai',
   owner2Mobile: '+91 8469507585',
   owner2Enabled: true,
-  address: 'MILAN STUDIO, 509, 5th Floor, Asopalav Cross Road Building, Opp. Shastrinagar Main Gate, Nana Mava Main Road, Rajkot.',
+  address: 'MILAN PHOTO, 509, 5th Floor, Asopalav Cross Road Building, Opp. Shastrinagar Main Gate, Nana Mava Main Road, Rajkot.',
   mapLink: 'https://maps.app.goo.gl/PwMjjfJf7mLP7cKn6',
   instagramId: 'milan_photoshoot__',
   instagramLink: 'https://www.instagram.com/milan_photoshoot__',

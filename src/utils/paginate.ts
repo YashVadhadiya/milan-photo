@@ -31,9 +31,11 @@ export interface PageContent {
 }
 
 export function paginate(state: AppState): PageContent[] {
-  const { eventDays, clientDetails, totalAmount } = state;
+  const { eventDays, clientDetails, totalAmount, advanceAmount } = state;
   const hasClient = !!(clientDetails.name || clientDetails.mobile || clientDetails.address || clientDetails.eventDate || clientDetails.quotationDate);
   const hasAmount = totalAmount != null && totalAmount > 0;
+  const hasAdvance = advanceAmount != null && advanceAmount > 0;
+  const amountHeight = hasAdvance ? 115 : 85;
 
   const pages: PageContent[] = [];
   let curDays: number[] = [];
@@ -100,7 +102,7 @@ export function paginate(state: AppState): PageContent[] {
     if (lastPage.showClient) {
       lastPageUsed += CLIENT_H;
     }
-    if (BODY_AVAIL - lastPageUsed >= AMOUNT_H) {
+    if (BODY_AVAIL - lastPageUsed >= amountHeight) {
       lastPage.showAmount = true;
     } else {
       pages.push({

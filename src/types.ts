@@ -40,4 +40,5 @@ export interface AppState {
   footerDetails: FooterDetails;
   eventDays: EventDay[];
   totalAmount: number | null;
+  advanceAmount: number | null;
 }
